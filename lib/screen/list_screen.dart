@@ -1,6 +1,8 @@
+import 'package:crud_bloc/bloc/authentication/authentication_bloc.dart';
 import 'package:crud_bloc/bloc/user_form/user_form_bloc.dart';
 import 'package:crud_bloc/bloc/user_list/user_list_bloc.dart';
-import 'package:crud_bloc/model/user_model.dart';
+import 'package:crud_bloc/data/model/auth_user.dart';
+import 'package:crud_bloc/data/model/user_model.dart';
 import 'package:crud_bloc/screen/form_screen.dart';
 import 'package:crud_bloc/widget/error_widget.dart';
 import 'package:crud_bloc/widget/loading_widget.dart';
@@ -9,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListScreen extends StatefulWidget {
+  final AuthUser authUser;
+  ListScreen({this.authUser});
   @override
   _ListScreenState createState() => _ListScreenState();
 }
@@ -18,6 +22,7 @@ class _ListScreenState extends State<ListScreen> {
 
   UserListBloc userListBloc;
   UserFormBloc userFormBloc;
+  AuthenticationBloc authBloc;
 
   TextEditingController _searchController = new TextEditingController();
 
@@ -25,8 +30,18 @@ class _ListScreenState extends State<ListScreen> {
   Widget build(BuildContext context) {
     userListBloc = BlocProvider.of<UserListBloc>(context);
     userFormBloc = BlocProvider.of<UserFormBloc>(context);
+    authBloc = BlocProvider.of<AuthenticationBloc>(context);
     return Scaffold(
       appBar: AppBar(
+
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              authBloc.add(UserLoggedOut());
+            },
+          )
+        ],
         title: TextField(
           controller: _searchController,
           autocorrect: false,
@@ -89,7 +104,7 @@ class _ListScreenState extends State<ListScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton( 
         child: Icon(Icons.add),
         onPressed: (){
           Navigator.of(context).push(

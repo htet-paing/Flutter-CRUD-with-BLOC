@@ -1,6 +1,6 @@
 import 'package:crud_bloc/bloc/user_form/user_form_bloc.dart';
 import 'package:crud_bloc/bloc/user_list/user_list_bloc.dart';
-import 'package:crud_bloc/model/user_model.dart';
+import 'package:crud_bloc/data/model/user_model.dart';
 import 'package:crud_bloc/widget/error_widget.dart';
 import 'package:crud_bloc/widget/loading_widget.dart';
 import 'package:flutter/material.dart';
